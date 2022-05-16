@@ -1,10 +1,7 @@
 const path = require('path');
 const fsp = require('fs').promises;
 
-// fs.mkdir(path.join(__dirname, 'Copy'), err => {
-//   if (err) throw err;
-//   console.log('Папка "Copy" создана');
-// });
+
 const output = path.join(__dirname, 'Copy') ;
 const input = path.join(__dirname,'files');
 
