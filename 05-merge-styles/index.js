@@ -4,20 +4,6 @@ const fsp = require('fs').promises;
 
 
 
-
-//create bundle.css
-fs.writeFile(path.join(__dirname,'project-dist','bundle.css'),
-  '',
-  (err) => {
-    if (err) throw err;
-  }
-);
-
-//поток записи в bundle.css
-const output = fs.createWriteStream(path.join(__dirname,'project-dist','bundle.css'));
-
-const input = path.join(__dirname,'styles');
-
 async function bundleCss(input,output){
 
   const entries = await fsp.readdir(input,{withFileTypes:true});
@@ -33,8 +19,27 @@ async function bundleCss(input,output){
       inputCss.pipe(output);
     }
   }
-  console.log('bundle.css complete, open index.html in your browser');
 }
 
-bundleCss(input,output);
+if (module.parent) {  
+  exports.css = bundleCss;
+} else {  
+  //поток записи в bundle.css
+  const output = fs.createWriteStream(path.join(__dirname,'project-dist','bundle.css'));
+  const input = path.join(__dirname,'styles');
+  
+  bundleCss(input,output); 
+  console.log('bundle.css complete, open index.html in your browser');
+}  
+
+
+// //create bundle.css
+// fs.writeFile(path.join(__dirname,'project-dist','bundle.css'),
+// '',
+// (err) => {
+//   if (err) throw err;
+// }
+// );
+
+
 
