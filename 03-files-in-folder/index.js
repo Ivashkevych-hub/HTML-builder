@@ -25,22 +25,3 @@ fs.readdir(dirName,
       }(file));       
     });
   });
-
-
-
-
-// files.forEach(file => {
-//   if(!file.isDirectory()){
-
-//     let fil = path.join(dirName,file.name);
-//     console.log(path.extname(fil));
-
-//     fs.stat(fil, function(f) {
-//       return function(err, stats) {
-//         console.log(f);
-//         console.log(stats['size']);
-//       }
-//     }(fil));
-
-//   }
-// });
