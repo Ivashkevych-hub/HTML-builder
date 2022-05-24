@@ -1,9 +1,24 @@
 const path = require('path');
 const fsp = require('fs').promises;
-// const fs = require('fs');
 
+
+
+//проверяем наличие копии
+async function isExist(dir){
+  try {
+    await fsp.access(dir);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
 
 async function copyDir(input,output) {
+  //заново переписываем 'copy-file'
+  if(await isExist(output)){
+    await fsp.rm(output, { recursive: true });
+  }
+
 
   const entries = await fsp.readdir(input,{withFileTypes:true});
   await fsp.mkdir(output , { recursive: true });
@@ -13,6 +28,7 @@ async function copyDir(input,output) {
   for(let file of entries) {
     const inputPath = path.join(input,file.name);
     const outputPath = path.join(output,file.name);
+
 
     if(file.isDirectory()) {
       await copyDir(inputPath,outputPath);
